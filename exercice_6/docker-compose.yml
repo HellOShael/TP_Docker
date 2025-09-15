@@ -1,0 +1,23 @@
+services:
+  web:
+    build: .
+    container_name: ex6_flask
+    ports:
+      - "5001:5000"       
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+      - MONGO_DB=tpdb
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:7
+    container_name: ex6_mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"     
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
