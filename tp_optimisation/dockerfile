@@ -1,14 +1,17 @@
 FROM node:20-alpine
 WORKDIR /app
 
+#Variables evt
 COPY package*.json ./
-RUN npm ci --omit=dev
 
-COPY . .
-RUN npm ci --omit=dev
-
-EXPOSE 3000
+#Mode production avant l'installation
 ENV NODE_ENV=production
+RUN npm ci --omit=dev --no-audit --no-fund
 
+#Manifestes
+COPY . .
+
+#Le reste du code
+EXPOSE 3000
 USER node
 CMD ["node", "server.js"]
