@@ -1,16 +1,14 @@
 FROM node:20-alpine
 WORKDIR /app
 
-# 1 - Variable d'evt
-ENV NODE_ENV=production
-
-# 2 - Manifestes
 COPY package*.json ./
-RUN npm ci --omit=dev --no-audit --no-fund
+RUN npm ci --omit=dev
 
-# 3 - Le reste du code
 COPY . .
+RUN npm ci --omit=dev
 
 EXPOSE 3000
+ENV NODE_ENV=production
+
 USER node
 CMD ["node", "server.js"]
